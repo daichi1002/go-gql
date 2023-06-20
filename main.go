@@ -1,7 +1,6 @@
 package main
 
 import (
-	_ "github.com/99designs/gqlgen"
 	"github.com/daichi1002/go-graphql/server"
 )
 
