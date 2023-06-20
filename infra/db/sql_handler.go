@@ -15,16 +15,16 @@ type SqlHandler struct {
 }
 
 type SqlHandlerParamsGetter interface {
-	GetMySqlUser() string
-	GetMySqlHost() string
-	GetMySqlPort() string
-	GetMySqlPassword() string
-	GetMySqlDB() string
+	GetMysqlUser() string
+	GetMysqlHost() string
+	GetMysqlPort() string
+	GetMysqlPassword() string
+	GetMysqlDB() string
 }
 
 func NewSqlHandler(params SqlHandlerParamsGetter) (adapters.SqlHandler, error) {
 	conn, err := sql.Open("mysql", getConnectionString(
-		params.GetMySqlUser(), params.GetMySqlHost(), params.GetMySqlPort(), params.GetMySqlPassword(), params.GetMySqlDB(),
+		params.GetMysqlUser(), params.GetMysqlHost(), params.GetMysqlPort(), params.GetMysqlPassword(), params.GetMysqlDB(),
 	))
 
 	if err != nil {
