@@ -1,14 +1,18 @@
 package repositories
 
-import "github.com/daichi1002/go-graphql/entities/model"
+import (
+	"github.com/daichi1002/go-graphql/adapters"
+	"github.com/daichi1002/go-graphql/entities/model"
+)
 
 type UserRepositoryDependencies struct {
-	// sqlHandle
-
+	sqlHandler adapters.SqlHandler
 }
 
-func NewUserRepository() UserRepository {
-	return &UserRepositoryDependencies{}
+func NewUserRepository(sqlHandler adapters.SqlHandler) UserRepository {
+	return &UserRepositoryDependencies{
+		sqlHandler,
+	}
 }
 
 func (dep *UserRepositoryDependencies) GetUser(userId string) (*model.User, error) {

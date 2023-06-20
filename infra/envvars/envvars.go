@@ -12,12 +12,16 @@ type Envvars struct {
 
 var e = &Envvars{}
 
-func NewEnvVar() {
+func init() {
 	e.MysqlUser = os.Getenv("MYSQL_USER")
 	e.MysqlHost = os.Getenv("MYSQL_HOST")
 	e.MysqlPort = os.Getenv("MYSQL_PORT")
 	e.MysqlPassword = os.Getenv("MYSQL_PASSWORD")
 	e.MysqlDB = os.Getenv("MYSQL_DB")
+}
+
+func GetInstance() *Envvars {
+	return e
 }
 
 func (e *Envvars) GetMysqlUser() string {

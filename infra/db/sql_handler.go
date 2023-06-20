@@ -22,16 +22,16 @@ type SqlHandlerParamsGetter interface {
 	GetMysqlDB() string
 }
 
-func NewSqlHandler(params SqlHandlerParamsGetter) (adapters.SqlHandler, error) {
+func NewSqlHandler(params SqlHandlerParamsGetter) adapters.SqlHandler {
 	conn, err := sql.Open("mysql", getConnectionString(
 		params.GetMysqlUser(), params.GetMysqlHost(), params.GetMysqlPort(), params.GetMysqlPassword(), params.GetMysqlDB(),
 	))
 
 	if err != nil {
-		return nil, err
+		logger.Fatal(err)
 	}
 
-	return &SqlHandler{conn}, nil
+	return &SqlHandler{conn}
 }
 
 func getConnectionString(user string, pass string, host string, port string, db string) string {
