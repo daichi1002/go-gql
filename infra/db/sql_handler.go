@@ -6,6 +6,7 @@ import (
 
 	"github.com/daichi1002/go-graphql/adapters"
 	"github.com/daichi1002/go-graphql/util"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var logger = util.NewLogger()
@@ -34,9 +35,9 @@ func NewSqlHandler(params SqlHandlerParamsGetter) adapters.SqlHandler {
 	return &SqlHandler{conn}
 }
 
-func getConnectionString(user string, pass string, host string, port string, db string) string {
+func getConnectionString(user string, host string, port string, password string, db string) string {
 	dsn := fmt.Sprintf("%v@tcp(%v:%v)/%v?charset=utf8&parseTime=True&loc=Local&timeout=10s", user, host, port, db)
-	// return user + ":" + pass + "@(" + host + ":" + ")/" + db
+	fmt.Println(dsn)
 	return dsn
 }
 
