@@ -37,7 +37,7 @@ func NewSqlHandler(params SqlHandlerParamsGetter) adapters.SqlHandler {
 
 func getConnectionString(user string, host string, port string, password string, db string) string {
 	dsn := fmt.Sprintf("%v@tcp(%v:%v)/%v?charset=utf8&parseTime=True&loc=Local&timeout=10s", user, host, port, db)
-	fmt.Println(dsn)
+
 	return dsn
 }
 

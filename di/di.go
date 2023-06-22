@@ -9,7 +9,7 @@ import (
 )
 
 type Functions struct {
-	getUser usecases.GetUserUsecase
+	GetUser usecases.GetUserUsecase
 }
 
 var functions *Functions
@@ -23,7 +23,7 @@ func Do(env envvars.EnvironmentVariablesInterface) {
 	getUserUsecase := user.NewGetUserInteractor(userRepository)
 
 	functions = &Functions{
-		getUser: getUserUsecase,
+		GetUser: getUserUsecase,
 	}
 }
 

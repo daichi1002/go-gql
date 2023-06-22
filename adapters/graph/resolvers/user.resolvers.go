@@ -6,15 +6,23 @@ package resolvers
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/daichi1002/go-graphql/adapters/graph/generated"
+	"github.com/daichi1002/go-graphql/di"
+	"github.com/daichi1002/go-graphql/entities"
 	"github.com/daichi1002/go-graphql/entities/model"
+	"github.com/daichi1002/go-graphql/util"
 )
 
 // User is the resolver for the user field.
 func (r *queryResolver) User(ctx context.Context, userID string) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: User - user"))
+	result, err := di.Provide().GetUser.Handle(userID)
+
+	if err != nil {
+		return nil, util.NewGqlError(ctx, err, entities.UNEXPECTED)
+	}
+
+	return result, nil
 }
 
 // Query returns generated.QueryResolver implementation.

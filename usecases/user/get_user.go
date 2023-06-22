@@ -1,6 +1,8 @@
 package user
 
 import (
+	"fmt"
+
 	"github.com/daichi1002/go-graphql/adapters/repositories"
 	"github.com/daichi1002/go-graphql/entities/model"
 	"github.com/daichi1002/go-graphql/usecases"
@@ -15,5 +17,5 @@ func NewGetUserInteractor(userRepository repositories.UserRepository) usecases.G
 }
 
 func (interactor GetUserInteractor) Handle(userId string) (*model.User, error) {
-	return nil, nil
+	return nil, fmt.Errorf("testError")
 }
