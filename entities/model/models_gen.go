@@ -2,7 +2,15 @@
 
 package model
 
+type CreateUserInfo struct {
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 type User struct {
-	UserID string `json:"userId"`
-	Name   string `json:"name"`
+	UserID   string `json:"userId"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }

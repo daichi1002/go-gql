@@ -2,7 +2,19 @@ type Query {
   user(userId: ID!): User!
 }
 
+type Mutation {
+  createUser(createUserInfo: CreateUserInfo!): Boolean!
+}
+
 type User {
   userId: ID!
   name: String!
+  email: String!
+  password: String!
+}
+
+input CreateUserInfo {
+  name: String!
+  email: String!
+  password: String!
 }
