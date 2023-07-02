@@ -57,3 +57,9 @@ func (dep *UserRepositoryDependencies) GetUser(userId string) (*model.User, erro
 
 	return &user, nil
 }
+
+func (dep *UserRepositoryDependencies) CreateUser(input model.CreateUserInfo) error {
+	// create処理
+
+	return nil
+}

@@ -6,7 +6,6 @@ package resolvers
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/daichi1002/go-graphql/adapters/graph/generated"
 	"github.com/daichi1002/go-graphql/di"
@@ -22,7 +21,14 @@ func (r *mutationResolver) CreateUser(ctx context.Context, createUserInfo model.
 	if err != nil {
 		return false, err
 	}
-	panic(fmt.Errorf("not implemented: CreateUser - createUser"))
+
+	err = di.Provide().CreateUser.Handle(createUserInfo)
+
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }
 
 // User is the resolver for the user field.
