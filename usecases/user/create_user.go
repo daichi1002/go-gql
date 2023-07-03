@@ -1,7 +1,7 @@
 package user
 
 import (
-	"github.com/daichi1002/go-graphql/adapters/repositories"
+	"github.com/daichi1002/go-graphql/adapters/graph/repositories"
 	"github.com/daichi1002/go-graphql/entities/model"
 	"github.com/daichi1002/go-graphql/usecases"
 )

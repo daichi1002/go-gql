@@ -46,15 +46,13 @@ type SqlResult struct {
 }
 
 func (handler *SqlHandler) Execute(statement string, args ...interface{}) (adapters.Result, error) {
-	res := SqlResult{}
 	result, err := handler.Conn.Exec(statement, args...)
 
 	if err != nil {
 		return nil, err
 	}
 
-	res.Result = result
-	return res, nil
+	return SqlResult{result}, nil
 }
 
 func (r SqlResult) LastInsertId() (int64, error) {

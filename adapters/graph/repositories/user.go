@@ -59,7 +59,30 @@ func (dep *UserRepositoryDependencies) GetUser(userId string) (*model.User, erro
 }
 
 func (dep *UserRepositoryDependencies) CreateUser(input model.CreateUserInfo) error {
+	currentTime := CustomNow()
 	// create処理
+	query := `
+		INSERT INTO users (
+			name,
+			email,
+			password,
+			created_at,
+			updated_at
+		) VALUES (?, ?, ?, ?, ?)
+	`
+
+	_, err := dep.sqlHandler.Execute(
+		query,
+		input.Name,
+		input.Email,
+		input.Password,
+		currentTime,
+		currentTime,
+	)
+
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

@@ -2,7 +2,7 @@ gqlgen:
 	go get github.com/99designs/gqlgen@latest; \
 	go run github.com/99designs/gqlgen generate;
 
-up:
+run:
 	docker-compose down; \
 	docker-compose up -d;
 

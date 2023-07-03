@@ -1,7 +1,7 @@
 package di
 
 import (
-	"github.com/daichi1002/go-graphql/adapters/repositories"
+	"github.com/daichi1002/go-graphql/adapters/graph/repositories"
 	"github.com/daichi1002/go-graphql/infra/db"
 	"github.com/daichi1002/go-graphql/infra/envvars"
 	"github.com/daichi1002/go-graphql/usecases"
