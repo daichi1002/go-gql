@@ -7,11 +7,9 @@ import (
 
 	"github.com/daichi1002/go-graphql/adapters"
 	"github.com/daichi1002/go-graphql/constants"
-	"github.com/daichi1002/go-graphql/util"
+	"github.com/daichi1002/go-graphql/log"
 	_ "github.com/go-sql-driver/mysql"
 )
-
-var logger = util.NewLogger()
 
 type SqlHandler struct {
 	Conn *sql.DB
@@ -31,7 +29,7 @@ func NewSqlHandler(params SqlHandlerParamsGetter) adapters.SqlHandler {
 	))
 
 	if err != nil {
-		logger.Fatal(err)
+		log.Fatal(err.Error())
 	}
 
 	return &SqlHandler{conn}
@@ -54,7 +52,7 @@ func (handler *SqlHandler) Execute(ctx context.Context, statement string, args .
 		result, err := tx.Exec(statement, args...)
 
 		if err != nil {
-			// TODO:ログ出力
+			log.Error(err.Error())
 			return nil, err
 		}
 
@@ -64,7 +62,7 @@ func (handler *SqlHandler) Execute(ctx context.Context, statement string, args .
 	result, err := handler.Conn.Exec(statement, args...)
 
 	if err != nil {
-		// TODO:ログ出力
+		log.Error(err.Error())
 		return nil, err
 	}
 
@@ -75,7 +73,7 @@ func (r SqlResult) LastInsertId() (int64, error) {
 	lastInsertId, err := r.Result.LastInsertId()
 
 	if err != nil {
-		logger.Error(err)
+		log.Error(err.Error())
 	}
 
 	return lastInsertId, err
@@ -85,7 +83,7 @@ func (r SqlResult) RowsAffected() (int64, error) {
 	rowsAffected, err := r.Result.RowsAffected()
 
 	if err != nil {
-		logger.Error(err)
+		log.Error(err.Error())
 	}
 
 	return rowsAffected, err
@@ -102,7 +100,7 @@ func (handler *SqlHandler) Query(ctx context.Context, statement string, args ...
 		rows, err := tx.Query(statement, args...)
 
 		if err != nil {
-			// TODO:ログ出力
+			log.Error(err.Error())
 			return nil, err
 		}
 
@@ -111,7 +109,7 @@ func (handler *SqlHandler) Query(ctx context.Context, statement string, args ...
 	rows, err := handler.Conn.Query(statement, args...)
 
 	if err != nil {
-		// TODO:ログ出力
+		log.Error(err.Error())
 		return nil, err
 	}
 
@@ -122,7 +120,7 @@ func (r SqlRow) Scan(dest ...interface{}) error {
 	err := r.Rows.Scan(dest...)
 
 	if err != nil {
-		logger.Error(err)
+		log.Error(err.Error())
 	}
 
 	return err
@@ -136,7 +134,7 @@ func (r SqlRow) Close() error {
 	err := r.Rows.Close()
 
 	if err != nil {
-		logger.Error(err)
+		log.Error(err.Error())
 	}
 
 	return err
