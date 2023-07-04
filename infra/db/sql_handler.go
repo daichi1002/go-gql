@@ -1,10 +1,12 @@
 package db
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 
 	"github.com/daichi1002/go-graphql/adapters"
+	"github.com/daichi1002/go-graphql/constants"
 	"github.com/daichi1002/go-graphql/util"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -45,10 +47,24 @@ type SqlResult struct {
 	Result sql.Result
 }
 
-func (handler *SqlHandler) Execute(statement string, args ...interface{}) (adapters.Result, error) {
+func (handler *SqlHandler) Execute(ctx context.Context, statement string, args ...interface{}) (adapters.Result, error) {
+	tx, ok := ctx.Value(constants.TxCtxKey).(*sql.Tx)
+
+	if ok {
+		result, err := tx.Exec(statement, args...)
+
+		if err != nil {
+			// TODO:ログ出力
+			return nil, err
+		}
+
+		return SqlResult{result}, nil
+	}
+
 	result, err := handler.Conn.Exec(statement, args...)
 
 	if err != nil {
+		// TODO:ログ出力
 		return nil, err
 	}
 
@@ -79,10 +95,23 @@ type SqlRow struct {
 	Rows *sql.Rows
 }
 
-func (handler *SqlHandler) Query(statement string, args ...interface{}) (adapters.Rows, error) {
+func (handler *SqlHandler) Query(ctx context.Context, statement string, args ...interface{}) (adapters.Rows, error) {
+	tx, ok := ctx.Value(constants.TxCtxKey).(*sql.Tx)
+
+	if ok {
+		rows, err := tx.Query(statement, args...)
+
+		if err != nil {
+			// TODO:ログ出力
+			return nil, err
+		}
+
+		return SqlRow{rows}, nil
+	}
 	rows, err := handler.Conn.Query(statement, args...)
 
 	if err != nil {
+		// TODO:ログ出力
 		return nil, err
 	}
 
@@ -111,4 +140,8 @@ func (r SqlRow) Close() error {
 	}
 
 	return err
+}
+
+func (handler *SqlHandler) Begin() (*sql.Tx, error) {
+	return handler.Conn.Begin()
 }

@@ -1,8 +1,14 @@
 package adapters
 
+import (
+	"context"
+	"database/sql"
+)
+
 type SqlHandler interface {
-	Execute(string, ...interface{}) (Result, error)
-	Query(string, ...interface{}) (Rows, error)
+	Execute(context.Context, string, ...interface{}) (Result, error)
+	Query(context.Context, string, ...interface{}) (Rows, error)
+	Begin() (*sql.Tx, error)
 }
 
 type Result interface {

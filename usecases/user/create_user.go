@@ -1,6 +1,8 @@
 package user
 
 import (
+	"context"
+
 	"github.com/daichi1002/go-graphql/adapters/repositories"
 	"github.com/daichi1002/go-graphql/entities/model"
 	"github.com/daichi1002/go-graphql/usecases"
@@ -14,8 +16,8 @@ func NewCreateUserInteractor(userRepository repositories.UserRepository) usecase
 	return &CreateUserInteractor{userRepository: userRepository}
 }
 
-func (interactor CreateUserInteractor) Handle(input model.CreateUserInfo) error {
-	err := interactor.userRepository.CreateUser(input)
+func (interactor CreateUserInteractor) Handle(ctx context.Context, input model.CreateUserInfo) error {
+	err := interactor.userRepository.CreateUser(ctx, input)
 
 	if err != nil {
 		return err

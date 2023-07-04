@@ -22,7 +22,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, createUserInfo model.
 		return false, err
 	}
 
-	err = di.Provide().CreateUser.Handle(createUserInfo)
+	err = di.Provide().CreateUser.Handle(ctx, createUserInfo)
 
 	if err != nil {
 		return false, err
@@ -33,7 +33,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, createUserInfo model.
 
 // User is the resolver for the user field.
 func (r *queryResolver) User(ctx context.Context, userID string) (*model.User, error) {
-	result, err := di.Provide().GetUser.Handle(userID)
+	result, err := di.Provide().GetUser.Handle(ctx, userID)
 
 	if err != nil {
 		return nil, util.NewGqlError(ctx, err, entities.UNEXPECTED)

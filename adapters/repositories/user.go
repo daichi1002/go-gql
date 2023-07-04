@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"context"
+
 	"github.com/daichi1002/go-graphql/adapters"
 	"github.com/daichi1002/go-graphql/entities/model"
 )
@@ -15,7 +17,7 @@ func NewUserRepository(sqlHandler adapters.SqlHandler) UserRepository {
 	}
 }
 
-func (dep *UserRepositoryDependencies) GetUser(userId string) (*model.User, error) {
+func (dep *UserRepositoryDependencies) GetUser(ctx context.Context, userId string) (*model.User, error) {
 	var user model.User
 
 	query := `
@@ -31,7 +33,7 @@ func (dep *UserRepositoryDependencies) GetUser(userId string) (*model.User, erro
 	AND deleted_at IS NULL
 	`
 
-	row, err := dep.sqlHandler.Query(query, userId)
+	row, err := dep.sqlHandler.Query(ctx, query, userId)
 
 	if err != nil {
 		return nil, err
@@ -58,7 +60,7 @@ func (dep *UserRepositoryDependencies) GetUser(userId string) (*model.User, erro
 	return &user, nil
 }
 
-func (dep *UserRepositoryDependencies) CreateUser(input model.CreateUserInfo) error {
+func (dep *UserRepositoryDependencies) CreateUser(ctx context.Context, input model.CreateUserInfo) error {
 	currentTime := CustomNow()
 	// create処理
 	query := `
@@ -72,6 +74,7 @@ func (dep *UserRepositoryDependencies) CreateUser(input model.CreateUserInfo) er
 	`
 
 	_, err := dep.sqlHandler.Execute(
+		ctx,
 		query,
 		input.Name,
 		input.Email,
