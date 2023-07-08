@@ -11,6 +11,7 @@ type UserRepository interface {
 	GetUser(ctx context.Context, userId string) (*model.User, error)
 	CreateUser(ctx context.Context, input model.CreateUserInfo) error
 	UpdateUser(ctx context.Context, input model.UpdateUserInfo) error
+	DeleteUser(ctx context.Context, userId string) error
 }
 
 type TxRepository interface {

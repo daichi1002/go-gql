@@ -164,3 +164,29 @@ func (dep *UserRepositoryDependencies) UpdateUser(ctx context.Context, input mod
 
 	return nil
 }
+
+func (dep *UserRepositoryDependencies) DeleteUser(ctx context.Context, userId string) error {
+	currentTime := CustomNow()
+	// update処理
+	query := `
+	UPDATE
+		users
+	SET
+		deleted_at = ?
+	WHERE
+		user_id = ?
+	`
+
+	_, err := dep.sqlHandler.Execute(
+		ctx,
+		query,
+		currentTime,
+		userId,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

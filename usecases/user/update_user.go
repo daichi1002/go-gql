@@ -23,5 +23,7 @@ func (interactor UpdateUserInteractor) Handle(ctx context.Context, input model.U
 		return err
 	}
 
+	// TODO：user_idが存在しない場合はINVALID_PARAMETERのエラーを返す
+
 	return nil
 }

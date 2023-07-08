@@ -49,6 +49,20 @@ func (mr *MockUserRepositoryMockRecorder) CreateUser(ctx, input interface{}) *go
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockUserRepository)(nil).CreateUser), ctx, input)
 }
 
+// DeleteUser mocks base method.
+func (m *MockUserRepository) DeleteUser(ctx context.Context, userId string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteUser", ctx, userId)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteUser indicates an expected call of DeleteUser.
+func (mr *MockUserRepositoryMockRecorder) DeleteUser(ctx, userId interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUser", reflect.TypeOf((*MockUserRepository)(nil).DeleteUser), ctx, userId)
+}
+
 // GetUser mocks base method.
 func (m *MockUserRepository) GetUser(ctx context.Context, userId string) (*model.User, error) {
 	m.ctrl.T.Helper()

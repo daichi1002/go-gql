@@ -23,5 +23,6 @@ func (interactor GetUserInteractor) Handle(ctx context.Context, userId string) (
 		return nil, err
 	}
 
+	// TODO:userがnilの場合にnot_foundエラーを返す
 	return user, nil
 }

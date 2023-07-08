@@ -20,3 +20,7 @@ type CreateUserUsecase interface {
 type UpdateUserUsecase interface {
 	Handle(ctx context.Context, input model.UpdateUserInfo) error
 }
+
+type DeleteUserUsecase interface {
+	Handle(ctx context.Context, userId string) error
+}

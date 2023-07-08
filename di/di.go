@@ -13,6 +13,7 @@ type Functions struct {
 	GetUser    usecases.GetUserUsecase
 	CreateUser usecases.CreateUserUsecase
 	UpdateUser usecases.UpdateUserUsecase
+	DeleteUser usecases.DeleteUserUsecase
 }
 
 var functions *Functions
@@ -27,12 +28,14 @@ func Do(env envvars.EnvironmentVariablesInterface) {
 	getUserUsecase := user.NewGetUserInteractor(userRepository)
 	createUserUsecase := user.NewCreateUserInteractor(userRepository)
 	updateUserUsecase := user.NewUpdateUserInteractor(userRepository)
+	deleteUserUsecase := user.NewDeleteUserInteractor(userRepository)
 
 	functions = &Functions{
 		GetUsers:   getUsersUsecase,
 		GetUser:    getUserUsecase,
 		CreateUser: createUserUsecase,
 		UpdateUser: updateUserUsecase,
+		DeleteUser: deleteUserUsecase,
 	}
 }
 

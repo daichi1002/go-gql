@@ -161,3 +161,40 @@ func (mr *MockUpdateUserUsecaseMockRecorder) Handle(ctx, input interface{}) *gom
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Handle", reflect.TypeOf((*MockUpdateUserUsecase)(nil).Handle), ctx, input)
 }
+
+// MockDeleteUserUsecase is a mock of DeleteUserUsecase interface.
+type MockDeleteUserUsecase struct {
+	ctrl     *gomock.Controller
+	recorder *MockDeleteUserUsecaseMockRecorder
+}
+
+// MockDeleteUserUsecaseMockRecorder is the mock recorder for MockDeleteUserUsecase.
+type MockDeleteUserUsecaseMockRecorder struct {
+	mock *MockDeleteUserUsecase
+}
+
+// NewMockDeleteUserUsecase creates a new mock instance.
+func NewMockDeleteUserUsecase(ctrl *gomock.Controller) *MockDeleteUserUsecase {
+	mock := &MockDeleteUserUsecase{ctrl: ctrl}
+	mock.recorder = &MockDeleteUserUsecaseMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockDeleteUserUsecase) EXPECT() *MockDeleteUserUsecaseMockRecorder {
+	return m.recorder
+}
+
+// Handle mocks base method.
+func (m *MockDeleteUserUsecase) Handle(ctx context.Context, userId string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Handle", ctx, userId)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Handle indicates an expected call of Handle.
+func (mr *MockDeleteUserUsecaseMockRecorder) Handle(ctx, userId interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Handle", reflect.TypeOf((*MockDeleteUserUsecase)(nil).Handle), ctx, userId)
+}
