@@ -6,6 +6,7 @@ package resolvers
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/daichi1002/go-graphql/adapters/graph/generated"
 	"github.com/daichi1002/go-graphql/di"
@@ -29,6 +30,27 @@ func (r *mutationResolver) CreateUser(ctx context.Context, createUserInfo model.
 	}
 
 	return true, nil
+}
+
+// UpdateUser is the resolver for the updateUser field.
+func (r *mutationResolver) UpdateUser(ctx context.Context, updateUserInfo model.UpdateUserInfo) (bool, error) {
+	panic(fmt.Errorf("not implemented: UpdateUser - updateUser"))
+}
+
+// DeleteUser is the resolver for the deleteUser field.
+func (r *mutationResolver) DeleteUser(ctx context.Context, userID string) (bool, error) {
+	panic(fmt.Errorf("not implemented: DeleteUser - deleteUser"))
+}
+
+// Users is the resolver for the users field.
+func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
+	result, err := di.Provide().GetUsers.Handle(ctx)
+
+	if err != nil {
+		return nil, util.NewGqlError(ctx, err, entities.UNEXPECTED)
+	}
+
+	return result, nil
 }
 
 // User is the resolver for the user field.

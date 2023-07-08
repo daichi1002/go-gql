@@ -14,6 +14,103 @@ import (
 	"github.com/golang/mock/gomock"
 )
 
+func TestGetsUser(t *testing.T) {
+	// パラメータ
+	ctx := context.Background()
+	// 期待するレスポンス
+	expected := []*model.User{
+		{
+			UserID:   "1",
+			Name:     "test name1",
+			Email:    "test1@xxx.go.jp",
+			Password: "password1",
+		},
+		{
+			UserID:   "2",
+			Name:     "test name2",
+			Email:    "test2@xxx.go.jp",
+			Password: "password2",
+		},
+	}
+
+	// テストケース
+	tests := []struct {
+		name     string
+		expected []*model.User
+		err      error
+	}{
+		{
+			name:     "Success",
+			expected: expected,
+			err:      nil,
+		},
+		{
+			name:     "Failed",
+			expected: nil,
+			err:      fmt.Errorf("failed"),
+		},
+	}
+
+	// モック
+	database, mock, err := sqlmock.New()
+	if err != nil {
+		t.Error("sqlmock not work")
+	}
+
+	defer database.Close()
+
+	sqlHandler := db.NewSqlHandlerOfDB(database)
+	repository := NewUserRepository(sqlHandler)
+
+	// 期待するクエリ
+	query := `
+	SELECT
+		user_id,
+		name,
+		email,
+		password
+	FROM
+		users
+	WHERE
+		deleted_at IS NULL
+	`
+
+	// テスト実行
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// DBモックのレスポンス設定
+			rows := sqlmock.NewRows([]string{
+				"user_id",
+				"name",
+				"email",
+				"password",
+			})
+			for _, r := range tt.expected {
+				rows.AddRow(
+					r.UserID,
+					r.Name,
+					r.Email,
+					r.Password,
+				)
+			}
+
+			mock.ExpectQuery(regexp.QuoteMeta(query)).WillReturnRows(rows).WillReturnError(tt.err)
+
+			result, err := repository.GetUsers(ctx)
+			if !reflect.DeepEqual(result, tt.expected) {
+				t.Logf("result: %v", result)
+				t.Logf("expected result: %v", tt.expected)
+				t.Error("Failed")
+			}
+
+			if err != tt.err {
+				t.Logf("err: %v", err)
+				t.Logf("expected err: %v", tt.expected)
+				t.Error("Failed")
+			}
+		})
+	}
+}
 func TestGetUser(t *testing.T) {
 	// パラメータ
 	ctx := context.Background()

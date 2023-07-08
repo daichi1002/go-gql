@@ -6,6 +6,9 @@ import (
 	"github.com/daichi1002/go-graphql/entities/model"
 )
 
+type GetUsersUsecase interface {
+	Handle(ctx context.Context) ([]*model.User, error)
+}
 type GetUserUsecase interface {
 	Handle(ctx context.Context, userId string) (*model.User, error)
 }

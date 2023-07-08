@@ -17,6 +17,49 @@ func NewUserRepository(sqlHandler adapters.SqlHandler) UserRepository {
 	}
 }
 
+func (dep *UserRepositoryDependencies) GetUsers(ctx context.Context) ([]*model.User, error) {
+	var users []*model.User
+
+	query := `
+	SELECT
+		user_id,
+		name,
+		email,
+		password
+	FROM
+		users
+	WHERE
+		deleted_at IS NULL
+	`
+
+	row, err := dep.sqlHandler.Query(ctx, query)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer row.Close()
+
+	for row.Next() {
+		user := &model.User{}
+
+		row.Scan(
+			&user.UserID,
+			&user.Name,
+			&user.Email,
+			&user.Password,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+
+		users = append(users, user)
+	}
+
+	return users, nil
+}
+
 func (dep *UserRepositoryDependencies) GetUser(ctx context.Context, userId string) (*model.User, error) {
 	var user model.User
 

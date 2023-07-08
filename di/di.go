@@ -9,6 +9,7 @@ import (
 )
 
 type Functions struct {
+	GetUsers   usecases.GetUsersUsecase
 	GetUser    usecases.GetUserUsecase
 	CreateUser usecases.CreateUserUsecase
 }
@@ -21,10 +22,12 @@ func Do(env envvars.EnvironmentVariablesInterface) {
 	// repositories
 	userRepository := repositories.NewUserRepository(sqlHandler)
 	// usecases
+	getUsersUsecase := user.NewGetUsersInteractor(userRepository)
 	getUserUsecase := user.NewGetUserInteractor(userRepository)
 	createUserUsecase := user.NewCreateUserInteractor(userRepository)
 
 	functions = &Functions{
+		GetUsers:   getUsersUsecase,
 		GetUser:    getUserUsecase,
 		CreateUser: createUserUsecase,
 	}

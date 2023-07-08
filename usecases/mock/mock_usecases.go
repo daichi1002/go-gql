@@ -12,6 +12,44 @@ import (
 	gomock "github.com/golang/mock/gomock"
 )
 
+// MockGetUsersUsecase is a mock of GetUsersUsecase interface.
+type MockGetUsersUsecase struct {
+	ctrl     *gomock.Controller
+	recorder *MockGetUsersUsecaseMockRecorder
+}
+
+// MockGetUsersUsecaseMockRecorder is the mock recorder for MockGetUsersUsecase.
+type MockGetUsersUsecaseMockRecorder struct {
+	mock *MockGetUsersUsecase
+}
+
+// NewMockGetUsersUsecase creates a new mock instance.
+func NewMockGetUsersUsecase(ctrl *gomock.Controller) *MockGetUsersUsecase {
+	mock := &MockGetUsersUsecase{ctrl: ctrl}
+	mock.recorder = &MockGetUsersUsecaseMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockGetUsersUsecase) EXPECT() *MockGetUsersUsecaseMockRecorder {
+	return m.recorder
+}
+
+// Handle mocks base method.
+func (m *MockGetUsersUsecase) Handle(ctx context.Context) ([]*model.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Handle", ctx)
+	ret0, _ := ret[0].([]*model.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Handle indicates an expected call of Handle.
+func (mr *MockGetUsersUsecaseMockRecorder) Handle(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Handle", reflect.TypeOf((*MockGetUsersUsecase)(nil).Handle), ctx)
+}
+
 // MockGetUserUsecase is a mock of GetUserUsecase interface.
 type MockGetUserUsecase struct {
 	ctrl     *gomock.Controller

@@ -64,6 +64,21 @@ func (mr *MockUserRepositoryMockRecorder) GetUser(ctx, userId interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUser", reflect.TypeOf((*MockUserRepository)(nil).GetUser), ctx, userId)
 }
 
+// GetUsers mocks base method.
+func (m *MockUserRepository) GetUsers(ctx context.Context) ([]*model.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUsers", ctx)
+	ret0, _ := ret[0].([]*model.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUsers indicates an expected call of GetUsers.
+func (mr *MockUserRepositoryMockRecorder) GetUsers(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUsers", reflect.TypeOf((*MockUserRepository)(nil).GetUsers), ctx)
+}
+
 // MockTxRepository is a mock of TxRepository interface.
 type MockTxRepository struct {
 	ctrl     *gomock.Controller
