@@ -6,6 +6,7 @@ require (
 	github.com/99designs/gqlgen v0.17.34
 	github.com/go-playground/validator/v10 v10.14.1
 	github.com/go-sql-driver/mysql v1.7.1
+	github.com/golang/mock v1.6.0
 	github.com/vektah/gqlparser/v2 v2.5.4
 	go.uber.org/zap v1.24.0
 )

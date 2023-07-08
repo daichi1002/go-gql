@@ -8,3 +8,7 @@ run:
 
 migrate-up:
 	migrate --path migrations --database 'mysql://root@tcp(127.0.0.1:3310)/gql?charset=utf8&parseTime=True&loc=Local&timeout=10s' -verbose up;
+
+mockgen:
+	mockgen -source usecases/usecases_interfaces.go -destination usecases/mock/mock_usecases.go -package mock_usecases;
+	mockgen -source adapters/repositories/repositories_interfaces.go -destination adapters/repositories/mock/mock_repositories.go -package mock_repositories;
