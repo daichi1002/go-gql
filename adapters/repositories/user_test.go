@@ -280,3 +280,86 @@ func TestCreateUser(t *testing.T) {
 		})
 	}
 }
+
+func TestUpdateUser(t *testing.T) {
+	// パラメータ
+	ctx := context.Background()
+	input := model.UpdateUserInfo{
+		UserID:   "1",
+		Name:     "test name",
+		Email:    "test@xxx.go.jp",
+		Password: "password",
+	}
+
+	FakeNow("2023-01-01 00:00:00", "2023-12-31 00:00:00")
+	currentTime := CustomNow()
+
+	// 期待するレスポンス
+	expected := fmt.Errorf("failed")
+
+	// テストケース
+	tests := []struct {
+		name     string
+		expected error
+	}{
+		{
+			name:     "Success",
+			expected: nil,
+		},
+		{
+			name:     "Failed",
+			expected: expected,
+		},
+	}
+
+	// モック
+	database, mock, err := sqlmock.New()
+	if err != nil {
+		t.Error("sqlmock not work")
+	}
+
+	defer database.Close()
+
+	sqlHandler := db.NewSqlHandlerOfDB(database)
+	repository := NewUserRepository(sqlHandler)
+	ctrl := gomock.NewController(t)
+
+	// 期待するクエリ
+	query := `
+	UPDATE
+		users
+	SET
+		name = ?,
+		email = ?,
+		password = ?,
+		updated_at = ?
+	WHERE
+		user_id = ?
+	`
+
+	// テスト実行
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := mock_infra.NewMockResult(ctrl)
+
+			mock.ExpectExec(regexp.QuoteMeta(query)).
+				WithArgs(
+					input.Name,
+					input.Email,
+					input.Password,
+					currentTime,
+					input.UserID,
+				).
+				WillReturnResult(result).
+				WillReturnError(tt.expected)
+
+			err := repository.UpdateUser(ctx, input)
+
+			if err != tt.expected {
+				t.Logf("err: %v", err)
+				t.Logf("expected err: %v", tt.expected)
+				t.Error("Failed")
+			}
+		})
+	}
+}

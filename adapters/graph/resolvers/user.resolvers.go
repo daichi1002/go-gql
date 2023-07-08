@@ -34,7 +34,19 @@ func (r *mutationResolver) CreateUser(ctx context.Context, createUserInfo model.
 
 // UpdateUser is the resolver for the updateUser field.
 func (r *mutationResolver) UpdateUser(ctx context.Context, updateUserInfo model.UpdateUserInfo) (bool, error) {
-	panic(fmt.Errorf("not implemented: UpdateUser - updateUser"))
+	err := entities.Validate(updateUserInfo)
+
+	if err != nil {
+		return false, err
+	}
+
+	err = di.Provide().UpdateUser.Handle(ctx, updateUserInfo)
+
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }
 
 // DeleteUser is the resolver for the deleteUser field.

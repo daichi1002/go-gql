@@ -10,6 +10,7 @@ type UserRepository interface {
 	GetUsers(ctx context.Context) ([]*model.User, error)
 	GetUser(ctx context.Context, userId string) (*model.User, error)
 	CreateUser(ctx context.Context, input model.CreateUserInfo) error
+	UpdateUser(ctx context.Context, input model.UpdateUserInfo) error
 }
 
 type TxRepository interface {

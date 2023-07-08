@@ -79,6 +79,20 @@ func (mr *MockUserRepositoryMockRecorder) GetUsers(ctx interface{}) *gomock.Call
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUsers", reflect.TypeOf((*MockUserRepository)(nil).GetUsers), ctx)
 }
 
+// UpdateUser mocks base method.
+func (m *MockUserRepository) UpdateUser(ctx context.Context, input model.UpdateUserInfo) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateUser", ctx, input)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateUser indicates an expected call of UpdateUser.
+func (mr *MockUserRepositoryMockRecorder) UpdateUser(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUser", reflect.TypeOf((*MockUserRepository)(nil).UpdateUser), ctx, input)
+}
+
 // MockTxRepository is a mock of TxRepository interface.
 type MockTxRepository struct {
 	ctrl     *gomock.Controller

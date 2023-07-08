@@ -124,3 +124,40 @@ func (mr *MockCreateUserUsecaseMockRecorder) Handle(ctx, input interface{}) *gom
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Handle", reflect.TypeOf((*MockCreateUserUsecase)(nil).Handle), ctx, input)
 }
+
+// MockUpdateUserUsecase is a mock of UpdateUserUsecase interface.
+type MockUpdateUserUsecase struct {
+	ctrl     *gomock.Controller
+	recorder *MockUpdateUserUsecaseMockRecorder
+}
+
+// MockUpdateUserUsecaseMockRecorder is the mock recorder for MockUpdateUserUsecase.
+type MockUpdateUserUsecaseMockRecorder struct {
+	mock *MockUpdateUserUsecase
+}
+
+// NewMockUpdateUserUsecase creates a new mock instance.
+func NewMockUpdateUserUsecase(ctrl *gomock.Controller) *MockUpdateUserUsecase {
+	mock := &MockUpdateUserUsecase{ctrl: ctrl}
+	mock.recorder = &MockUpdateUserUsecaseMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockUpdateUserUsecase) EXPECT() *MockUpdateUserUsecaseMockRecorder {
+	return m.recorder
+}
+
+// Handle mocks base method.
+func (m *MockUpdateUserUsecase) Handle(ctx context.Context, input model.UpdateUserInfo) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Handle", ctx, input)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Handle indicates an expected call of Handle.
+func (mr *MockUpdateUserUsecaseMockRecorder) Handle(ctx, input interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Handle", reflect.TypeOf((*MockUpdateUserUsecase)(nil).Handle), ctx, input)
+}

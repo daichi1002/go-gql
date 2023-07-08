@@ -16,3 +16,7 @@ type GetUserUsecase interface {
 type CreateUserUsecase interface {
 	Handle(ctx context.Context, input model.CreateUserInfo) error
 }
+
+type UpdateUserUsecase interface {
+	Handle(ctx context.Context, input model.UpdateUserInfo) error
+}

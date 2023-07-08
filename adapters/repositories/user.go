@@ -132,3 +132,35 @@ func (dep *UserRepositoryDependencies) CreateUser(ctx context.Context, input mod
 
 	return nil
 }
+
+func (dep *UserRepositoryDependencies) UpdateUser(ctx context.Context, input model.UpdateUserInfo) error {
+	currentTime := CustomNow()
+	// update処理
+	query := `
+	UPDATE
+		users
+	SET
+		name = ?,
+		email = ?,
+		password = ?,
+		updated_at = ?
+	WHERE
+		user_id = ?
+	`
+
+	_, err := dep.sqlHandler.Execute(
+		ctx,
+		query,
+		input.Name,
+		input.Email,
+		input.Password,
+		currentTime,
+		input.UserID,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
