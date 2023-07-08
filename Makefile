@@ -12,3 +12,7 @@ migrate-up:
 mockgen:
 	mockgen -source usecases/usecases_interfaces.go -destination usecases/mock/mock_usecases.go -package mock_usecases;
 	mockgen -source adapters/repositories/repositories_interfaces.go -destination adapters/repositories/mock/mock_repositories.go -package mock_repositories;
+	mockgen -source adapters/interfaces.go -destination infra/mock/mock_infra.go -package mock_infra;
+
+test:
+	go test -v ./...;

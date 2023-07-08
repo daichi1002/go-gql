@@ -41,6 +41,10 @@ func getConnectionString(user string, host string, port string, password string,
 	return dsn
 }
 
+func NewSqlHandlerOfDB(db *sql.DB) *SqlHandler {
+	return &SqlHandler{db}
+}
+
 type SqlResult struct {
 	Result sql.Result
 }
