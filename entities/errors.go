@@ -11,3 +11,7 @@ const (
 func (e ErrorKind) ToString() string {
 	return string(e)
 }
+
+func (e ErrorKind) Error() string {
+	return e.ToString()
+}

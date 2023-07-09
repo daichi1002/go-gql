@@ -6,6 +6,8 @@ import (
 	"testing"
 
 	mock_repositories "github.com/daichi1002/go-graphql/adapters/repositories/mock"
+	"github.com/daichi1002/go-graphql/entities"
+	"github.com/daichi1002/go-graphql/entities/model"
 	"github.com/golang/mock/gomock"
 )
 
@@ -15,6 +17,13 @@ func TestDeleteUserHandle(t *testing.T) {
 	userId := "1"
 
 	// 期待するレスポンス
+	user := &model.User{
+		UserID:   userId,
+		Name:     "test name",
+		Email:    "test@xxx.go.jp",
+		Password: "password",
+	}
+
 	deleteErr := fmt.Errorf("failed")
 
 	// テストケース
@@ -30,15 +39,26 @@ func TestDeleteUserHandle(t *testing.T) {
 			prepareMockFn: func(
 				ur *mock_repositories.MockUserRepository,
 			) {
+				ur.EXPECT().GetUser(ctx, userId).Return(user, nil)
 				ur.EXPECT().DeleteUser(ctx, userId).Return(nil)
 			},
 			expected: nil,
+		},
+		{
+			name: "Not Found",
+			prepareMockFn: func(
+				ur *mock_repositories.MockUserRepository,
+			) {
+				ur.EXPECT().GetUser(ctx, userId).Return(nil, nil)
+			},
+			expected: entities.INVALID_PARAMETER,
 		},
 		{
 			name: "Failed",
 			prepareMockFn: func(
 				ur *mock_repositories.MockUserRepository,
 			) {
+				ur.EXPECT().GetUser(ctx, userId).Return(user, nil)
 				ur.EXPECT().DeleteUser(ctx, userId).Return(deleteErr)
 			},
 			expected: deleteErr,

@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	mock_repositories "github.com/daichi1002/go-graphql/adapters/repositories/mock"
+	"github.com/daichi1002/go-graphql/entities"
 	"github.com/daichi1002/go-graphql/entities/model"
 	"github.com/golang/mock/gomock"
 )
@@ -21,6 +22,13 @@ func TestUpdateUserHandle(t *testing.T) {
 	}
 
 	// 期待するレスポンス
+	user := &model.User{
+		UserID:   "1",
+		Name:     "test name",
+		Email:    "test@xxx.go.jp",
+		Password: "password",
+	}
+
 	updateErr := fmt.Errorf("failed")
 
 	// テストケース
@@ -36,15 +44,26 @@ func TestUpdateUserHandle(t *testing.T) {
 			prepareMockFn: func(
 				ur *mock_repositories.MockUserRepository,
 			) {
+				ur.EXPECT().GetUser(ctx, input.UserID).Return(user, nil)
 				ur.EXPECT().UpdateUser(ctx, input).Return(nil)
 			},
 			expected: nil,
+		},
+		{
+			name: "Not Found",
+			prepareMockFn: func(
+				ur *mock_repositories.MockUserRepository,
+			) {
+				ur.EXPECT().GetUser(ctx, input.UserID).Return(nil, nil)
+			},
+			expected: entities.INVALID_PARAMETER,
 		},
 		{
 			name: "Failed",
 			prepareMockFn: func(
 				ur *mock_repositories.MockUserRepository,
 			) {
+				ur.EXPECT().GetUser(ctx, input.UserID).Return(user, nil)
 				ur.EXPECT().UpdateUser(ctx, input).Return(updateErr)
 			},
 			expected: updateErr,

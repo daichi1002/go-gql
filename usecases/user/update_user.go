@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/daichi1002/go-graphql/adapters/repositories"
+	"github.com/daichi1002/go-graphql/entities"
 	"github.com/daichi1002/go-graphql/entities/model"
 	"github.com/daichi1002/go-graphql/usecases"
 )
@@ -17,13 +18,21 @@ func NewUpdateUserInteractor(userRepository repositories.UserRepository) usecase
 }
 
 func (interactor UpdateUserInteractor) Handle(ctx context.Context, input model.UpdateUserInfo) error {
-	err := interactor.userRepository.UpdateUser(ctx, input)
+	user, err := interactor.userRepository.GetUser(ctx, input.UserID)
 
 	if err != nil {
 		return err
 	}
 
-	// TODO：user_idが存在しない場合はINVALID_PARAMETERのエラーを返す
+	if user == nil {
+		return entities.INVALID_PARAMETER
+	}
+
+	err = interactor.userRepository.UpdateUser(ctx, input)
+
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

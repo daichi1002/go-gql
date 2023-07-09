@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/daichi1002/go-graphql/adapters/repositories"
+	"github.com/daichi1002/go-graphql/entities"
 	"github.com/daichi1002/go-graphql/usecases"
 )
 
@@ -16,13 +17,21 @@ func NewDeleteUserInteractor(userRepository repositories.UserRepository) usecase
 }
 
 func (interactor DeleteUserInteractor) Handle(ctx context.Context, userId string) error {
-	err := interactor.userRepository.DeleteUser(ctx, userId)
+	user, err := interactor.userRepository.GetUser(ctx, userId)
 
 	if err != nil {
 		return err
 	}
 
-	// TODO：user_idが存在しない場合はINVALID_PARAMETERのエラーを返す
+	if user == nil {
+		return entities.INVALID_PARAMETER
+	}
+
+	err = interactor.userRepository.DeleteUser(ctx, userId)
+
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
