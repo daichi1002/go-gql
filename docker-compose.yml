@@ -15,6 +15,9 @@ services:
     volumes:
       - ./db/data:/var/lib/mysql
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    networks:
+      external:
+        ipv4_address: 192.168.1.4
   web:
     container_name: server
     build:
@@ -29,3 +32,9 @@ services:
     depends_on:
       - db
     env_file: .env
+    networks:
+      external:
+        ipv4_address: 192.168.1.3
+networks:
+  external:
+    external: true
